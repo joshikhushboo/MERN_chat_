@@ -1,2 +1,3 @@
-const apiURL = `http://${window.location.hostname}:5000`;
+const apiURL = "https://mern-chat-backend-klnv.onrender.com";
+
 export default apiURL;

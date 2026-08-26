@@ -20,18 +20,7 @@ const server = http.createServer(app);
 // ================== MIDDLEWARES ==================
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      const hostname = new URL(origin).hostname;
-      const isPrivateNetwork =
-        hostname === "localhost" ||
-        hostname === "127.0.0.1" ||
-        /^(10|192\.168)\./.test(hostname) ||
-        /^172\.(1[6-9]|2\d|3[0-1])\./.test(hostname);
-
-      callback(null, isPrivateNetwork);
-    },
+    origin: true,
     credentials: true,
   })
 );

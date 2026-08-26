@@ -28,7 +28,7 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.postaxios.post("http://192.168.1.5:5000/api/auth/login", {
+     axios.post("https://mern-chat-backend-klnv.onrender.com/api/auth/login", {
         email,
         password,
         username,
