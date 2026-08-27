@@ -14,34 +14,37 @@ const socketIo = require("./socket");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "https://mern-chat-omega-six.vercel.app",
+];
+
+const corsOptions = {
+  origin: allowedOrigins,
+  credentials: true,
+};
+
 // ================== HTTP SERVER ==================
 
 const server = http.createServer(app);
 
 // ================== MIDDLEWARES ==================
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "https://mern-chat-omega-six.vercel.app",
-    ],
-    credentials: true,
-  })
-);
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 app.use(express.json());
+
+app.get("/", (_req, res) => {
+  res.json({ status: "ok" });
+});
 
 // ================== SOCKET.IO ==================
 
 const io = new Server(server, {
   cors: {
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:3000",
-      "https://mern-chat-omega-six.vercel.app",
-    ],
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
     credentials: true,
   },
