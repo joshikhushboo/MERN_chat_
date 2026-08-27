@@ -15,12 +15,18 @@ const socketIo = require("./socket");
 const app = express();
 
 // ================== HTTP SERVER ==================
+
 const server = http.createServer(app);
 
 // ================== MIDDLEWARES ==================
+
 app.use(
   cors({
-    origin: true,
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://mern-chat-omega-six.vercel.app",
+    ],
     credentials: true,
   })
 );
@@ -28,9 +34,14 @@ app.use(
 app.use(express.json());
 
 // ================== SOCKET.IO ==================
+
 const io = new Server(server, {
   cors: {
-    origin: true,
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://mern-chat-omega-six.vercel.app",
+    ],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -40,6 +51,7 @@ const io = new Server(server, {
 socketIo(io);
 
 // ================== DATABASE ==================
+
 const mongoUri = process.env.MONGO_URI || process.env.MONGO_URL;
 
 if (!mongoUri) {
@@ -62,10 +74,13 @@ mongoose
   });
 
 // ================== ROUTES ==================
+
 app.use("/api/users", userRouter);
 app.use("/api/groups", groupRouter);
 app.use("/api/messages", messageRouter);
+
 // ================== START SERVER ==================
+
 const PORT = process.env.PORT || 5000;
 
 server.on("error", (error) => {
