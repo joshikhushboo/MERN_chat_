@@ -25,30 +25,40 @@ const Register = () => {
   const navigate = useNavigate();
   //main logic for login
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-     axios.post("https://mern-chat-backend-klnv.onrender.com/api/auth/login", {
-        email,
-        password,
-        username,
-      });
-      console.log(data.user);
+  e.preventDefault();
+  setLoading(true);
 
-      navigate("/login");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description:
-          error?.response?.data?.message || "Something went wrong",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-      });
-    } 
-      setLoading(false);
-    
-  };
+  try {
+    const { data } = await axios.post(`${apiURL}/api/users/register`, {
+      email,
+      password,
+      username,
+    });
+
+    console.log(data.user);
+
+    toast({
+      title: "Account created successfully 🎉",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+
+    navigate("/login");
+
+  } catch (error) {
+    toast({
+      title: "Error",
+      description:
+        error?.response?.data?.message || "Something went wrong",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <Box
       w="100%"
